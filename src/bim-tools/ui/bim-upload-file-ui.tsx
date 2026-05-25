@@ -1,8 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { SidebarMenuItem } from '@/components/ui/sidebar'
 import { Upload } from 'lucide-react'
-import React, { useState } from 'react'
-import { useBim } from '@/bim-editor/bim-context'
+import  { useState } from 'react'
 import { useBimToolsStore } from '../bim-tools-store'
 
 const BimUploadFile = () => {

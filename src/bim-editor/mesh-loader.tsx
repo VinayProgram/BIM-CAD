@@ -3,7 +3,6 @@ import { useBim } from "./bim-context";
 import { useLoadFragmentsModel, useLoadIfc } from "./bim-hooks";
 import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 import { useThree } from "@react-three/fiber";
-import { AmbientLight } from "three";
 
 const IfcMesh = () => {
     const loadIfc = useLoadIfc();

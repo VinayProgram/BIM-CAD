@@ -1,30 +1,42 @@
 import { useEffect } from "react";
 import { useBim } from "./bim-context";
 import { useLoadFragmentsModel, useLoadIfc } from "./bim-hooks";
+import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
+import { useThree } from "@react-three/fiber";
+import { AmbientLight } from "three";
 
 const IfcMesh = () => {
     const loadIfc = useLoadIfc();
-    
-    const loadFragmentsModel =  
+    const { ifcLoadUrl } = useBimToolsStore()
+    const loadFragmentsModel =
         useLoadFragmentsModel();
 
-    const { isFragmentLoader, initialized } = useBim();
-    useEffect(() => {
+    const { isFragmentLoader, components, ifcLoader, modelAccess, fragments, init } = useBim();
+    const { scene } = useThree()
+
+    const cleanup = () => {
+        scene.remove(modelAccess?.object!)
+        components?.dispose()
+        fragments?.dispose()
+        ifcLoader?.dispose()
+    }
+    useEffect(()=>{
+        cleanup()
+        init()
+    },[ifcLoadUrl])
+
+    useEffect(() => {    
         if (isFragmentLoader) {
             console.log("Loading with fragments...");
-                loadFragmentsModel(
-                    "https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc"
-                );
+            loadFragmentsModel(
+                ifcLoadUrl
+            );
         } else {
             console.log("Loading with IfcLoader...");
             loadIfc(
-                "https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc"
-                // "/BasicHouse.ifc"
-            );
+                ifcLoadUrl);
         }
-    }, [isFragmentLoader, initialized, loadFragmentsModel, loadIfc]);
-    
-    
+    }, [isFragmentLoader, components, ifcLoader]);
 
     return null
 };

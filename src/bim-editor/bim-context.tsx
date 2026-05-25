@@ -15,9 +15,10 @@ interface BimContextType {
   initialized: boolean;
   ifcLoader: OBC.IfcLoader | null;
   isFragmentLoader?: boolean;
-  setModelAccess:React.Dispatch<React.SetStateAction<FRAGS.FragmentsModel | null>>|null
-  modelAccess:FRAGS.FragmentsModel|null
-  
+  setModelAccess: React.Dispatch<React.SetStateAction<FRAGS.FragmentsModel | null>> | null
+  modelAccess: FRAGS.FragmentsModel | null
+  init:()=>void
+
 }
 
 const BimContext = createContext<BimContextType>({
@@ -27,8 +28,9 @@ const BimContext = createContext<BimContextType>({
   initialized: false,
   ifcLoader: null,
   isFragmentLoader: false,
-  modelAccess:null,
-  setModelAccess:null
+  modelAccess: null,
+  setModelAccess: null,
+  init:()=>{}
 });
 
 export const useBim = () => useContext(BimContext);
@@ -56,7 +58,7 @@ const BimContextProvider = ({
 
   const [ifcLoader, setIfcLoader] = useState<OBC.IfcLoader | null>(null);
 
-  const [modelAccess,setModelAccess]=useState<FRAGS.FragmentsModel|null >(null)
+  const [modelAccess, setModelAccess] = useState<FRAGS.FragmentsModel | null>(null)
 
   const fragmentLoaderSetup = async () => {
     // SERIALIZER
@@ -71,22 +73,22 @@ const BimContextProvider = ({
     const fragmentsModel =
       new FRAGS.FragmentsModels(workerUrl);
     fragmentsModel.models.materials.list.onItemSet.add(
-          ({ value: material }) => {
-            if (
-              !(
-                "isLodMaterial" in material &&
-                material.isLodMaterial
-              )
-            ) {
-              material.polygonOffset = true;
-              material.polygonOffsetUnits = 1;
-              material.polygonOffsetFactor =
-                Math.random();
+      ({ value: material }) => {
+        if (
+          !(
+            "isLodMaterial" in material &&
+            material.isLodMaterial
+          )
+        ) {
+          material.polygonOffset = true;
+          material.polygonOffsetUnits = 1;
+          material.polygonOffsetFactor =
+            Math.random();
 
-              material.needsUpdate = true;
-            }
-          }
-        );
+          material.needsUpdate = true;
+        }
+      }
+    );
     return {
       serializer: importer,
       fragments: fragmentsModel,
@@ -129,33 +131,34 @@ const BimContextProvider = ({
     return { ifcLoader, fragments, components: comps };
   }
 
+  const init = async () => {
+    try {
+      // COMPONENTS
+      if (useFragments) {
+        const fragmentsModel = await fragmentLoaderSetup();
+        setFragments(fragmentsModel.fragments);
+        setSerializer(fragmentsModel.serializer);
+      } else {
+        const { ifcLoader, fragments, components } = await ifcLoaderSetup();
+        setIfcLoader(ifcLoader);
+        setFragments(fragments);
+        setComponents(components);
+      }
+      setInitialized(true);
+
+      console.log("BIM Initialized");
+    } catch (error) {
+      console.error(
+        "BIM Initialization Failed",
+        error
+      );
+    }
+  };
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        // COMPONENTS
-        if (useFragments) {
-          const fragmentsModel = await fragmentLoaderSetup();
-          setFragments(fragmentsModel.fragments);
-          setSerializer(fragmentsModel.serializer);
-        } else {
-          const { ifcLoader, fragments, components } = await ifcLoaderSetup();
-          setIfcLoader(ifcLoader);
-          setFragments(fragments);
-          setComponents(components);
-        }
-        setInitialized(true);
 
-        console.log("BIM Initialized");
-      } catch (error) {
-        console.error(
-          "BIM Initialization Failed",
-          error
-        );
-      }
-    };
 
-    if(initialized==false){
+    if (initialized == false) {
       console.log('Initializing BIM...');
       init()
     };
@@ -172,6 +175,7 @@ const BimContextProvider = ({
         initialized,
         ifcLoader,
         isFragmentLoader: useFragments,
+        init
       }}
     >
       {children}

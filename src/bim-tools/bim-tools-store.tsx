@@ -9,6 +9,9 @@ interface BimToolsState {
 
   explodeFactor:number;
   setExplodeFactor:(n:number)=>void
+
+  ifcLoadUrl:string,
+  setIfcLoadUrl:(s:string)=>void
 }
 
 export const useBimToolsStore = create<BimToolsState>((set) => ({
@@ -16,4 +19,6 @@ export const useBimToolsStore = create<BimToolsState>((set) => ({
   explodeFactor:0,
   setExplodeFactor:(n)=>set({explodeFactor:n}),
   setCameraType: (type) => set({ cameraType: type }),
+  ifcLoadUrl:"https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc",
+  setIfcLoadUrl:(s)=>set({ifcLoadUrl:s})
 }));

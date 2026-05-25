@@ -7,8 +7,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { CirclePlusIcon, MailIcon } from "lucide-react"
+import { CirclePlusIcon, MailIcon, Search } from "lucide-react"
 import React from "react"
+import { Input } from "./ui/input"
 
 export function NavMain({
   items,
@@ -29,9 +30,9 @@ export function NavMain({
         <SidebarMenu>
            <SidebarMenuItem key={'search'}>
               <SidebarMenuButton tooltip={'search models'}>
-                <CirclePlusIcon
+                <Search
                 />
-                 <span>Search Models <br/> <input onChange={(e)=>getResult(e.target.value)}></input></span>
+                 <Input placeholder='search Walls slabs etc...' onChange={(e)=>getResult(e.target.value)}/>
               </SidebarMenuButton>
             </SidebarMenuItem>
           {items.map((item) => (

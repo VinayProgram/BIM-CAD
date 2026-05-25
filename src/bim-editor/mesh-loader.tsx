@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useBim } from "./bim-context";
 import { useLoadFragmentsModel, useLoadIfc } from "./bim-hooks";
 import useFinder from "./bim-finder-hooks";
+import { useThree } from "@react-three/fiber";
 
 const IfcMesh = () => {
     const loadIfc = useLoadIfc();
@@ -10,8 +11,6 @@ const IfcMesh = () => {
         useLoadFragmentsModel();
 
     const { isFragmentLoader, initialized } = useBim();
-    const {getResult, init}=useFinder()
-
     useEffect(() => {
         if (isFragmentLoader) {
             console.log("Loading with fragments...");
@@ -21,20 +20,14 @@ const IfcMesh = () => {
         } else {
             console.log("Loading with IfcLoader...");
             loadIfc(
-                "https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc"
+                "/BasicHouse.ifc"
             );
-            init();
         }
     }, [isFragmentLoader, initialized, loadFragmentsModel, loadIfc]);
     
+  
 
-
-    return <mesh onClick={async()=>{
-        console.log('result',await getResult("Walls & Slabs"))
-    }}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="red" />
-    </mesh>;
+    return null
 };
 
 export default IfcMesh;

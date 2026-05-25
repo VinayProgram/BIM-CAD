@@ -1,10 +1,8 @@
 import {
-    Grid,
     OrbitControls,
 } from "@react-three/drei";
 
 import { Canvas } from "@react-three/fiber";
-import { DoubleSide } from "three";
 import IfcMesh from "./mesh-loader";
 const BimCanvas = () => {
     return (
@@ -20,6 +18,7 @@ const BimCanvas = () => {
             <OrbitControls />
             {/* <Player /> */}
             <IfcMesh />
+
         
         </Canvas>
     )

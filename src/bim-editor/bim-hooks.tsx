@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useBim } from "./bim-context";
 import { useThree } from "@react-three/fiber";
 import * as FRAGS from "@thatopen/fragments";
-
+import * as OBC from '@thatopen/components'
 async function fetchModel(url: string) {
     const response = await fetch(url);
 
@@ -15,7 +15,7 @@ async function fetchModel(url: string) {
 
 export const useLoadIfc = () => {
     const { ifcLoader } = useBim();
-    const {camera,scene}=useThree()
+    const { camera, scene } = useThree()
     const loadIfc = useCallback(
         async (url: string) => {
             const ifcBytes = await fetchModel(url);
@@ -34,7 +34,7 @@ export const useLoadIfc = () => {
                     },
 
                     instanceCallback: (
-                        importer: any
+                        importer: FRAGS.IfcImporter
                     ) => {
                         importer.addAllAttributes();
 
@@ -46,9 +46,15 @@ export const useLoadIfc = () => {
                     },
                 }
             );
+            if(model){
+
+            console.log(await model.getCategories())
+            console.log(await model.getAlignments())
+            
             scene.add(model?.object!);
             model?.useCamera(camera);
             return model;
+        }
         },
         [ifcLoader]
     );
@@ -119,6 +125,7 @@ export const useLoadFragmentsModel = () => {
                 );
 
             // ADD TO SCENE
+
             scene.add(model?.object);
 
             // OPTIONAL

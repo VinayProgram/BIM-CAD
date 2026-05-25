@@ -9,28 +9,6 @@ const useFinder = () => {
   const init = React.useCallback(async () => {
     if (!components) return;
     const finder = components.get(OBC.ItemsFinder);
-    finder.create("Walls & Slabs", [{ categories: [/WALL/, /SLAB/] }]);
-    finder.create("Masonry Walls", [
-      {
-        categories: [/WALL/],
-        attributes: { queries: [{ name: /Name/, value: /Masonry/ }] },
-      },
-    ])
-    const entryLevel: FRAGS.ItemsQueryParams = {
-      categories: [/BUILDINGSTOREY/],
-      attributes: { queries: [{ name: /Name/, value: /Entry/ }] },
-    };
-
-    // Next, we retrieve all columns that are related
-    // to any item matching the entryLevel query under the
-    // relation named ContainedInStructure.
-    finder.create("First Level Columns", [
-      {
-        categories: [/COLUMN/],
-        relation: { name: "ContainedInStructure", query: entryLevel },
-      },
-    ]);
-
     const hider = components.get(OBC.Hider);
     setHider(hider);
     setFinder(finder);
@@ -40,12 +18,17 @@ const useFinder = () => {
   
   const getResult = React.useCallback(async (name: string) => {
     console.log(finder?.list.keys())
+    const dynamicRegex = new RegExp(name, "i");
+    finder?.create(name,[{
+      categories:[dynamicRegex,new RegExp(`IFC${name.trim().toUpperCase()}`, "i") ]
+    }])
     const finderQuery = finder?.list.get(name);
     console.log(finderQuery)
     if (!finderQuery) return {};
     const result = await finderQuery.test();
     console.log(result);
     hider?.isolate(result);
+    // finder?.list.clear()
     return result;
   }, [finder]);
 

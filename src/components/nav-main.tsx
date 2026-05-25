@@ -1,3 +1,4 @@
+import useFinder from "@/bim-editor/bim-finder-hooks"
 import { Button } from "@/components/ui/button"
 import {
   SidebarGroup,
@@ -7,6 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { CirclePlusIcon, MailIcon } from "lucide-react"
+import React from "react"
 
 export function NavMain({
   items,
@@ -17,31 +19,21 @@ export function NavMain({
     icon?: React.ReactNode
   }[]
 }) {
+  const {getResult,init}=useFinder()
+  React.useEffect(()=>{
+    init()
+  },[init])
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
-            >
-              <CirclePlusIcon
-              />
-              <span>Quick Create</span>
-            </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <MailIcon
-              />
-              <span className="sr-only">Inbox</span>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
-        <SidebarMenu>
+           <SidebarMenuItem key={'search'}>
+              <SidebarMenuButton tooltip={'search models'}>
+                <CirclePlusIcon
+                />
+                 <span>Search Models <br/> <input onChange={(e)=>getResult(e.target.value)}></input></span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title}>

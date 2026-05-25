@@ -1,4 +1,7 @@
 import {
+    GizmoHelper,
+    GizmoViewcube,
+    GizmoViewport,
     OrbitControls,
 } from "@react-three/drei";
 
@@ -7,8 +10,8 @@ import IfcMesh from "./mesh-loader";
 import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 import Player from "@/bim-tools/first-player";
 const BimCanvas = () => {
-      const {cameraType}=useBimToolsStore()
-    
+    const { cameraType } = useBimToolsStore()
+
     return (
         <Canvas
             camera={{
@@ -20,10 +23,20 @@ const BimCanvas = () => {
 
             {/* Optional */}
             <OrbitControls />
-            {cameraType==='FP'&&<Player />}
+            {cameraType === 'FP' && <Player />}
             <IfcMesh />
+            {/* <GizmoHelper/> */}
+            <GizmoHelper
+                alignment="bottom-right" // widget alignment within scene
+                margin={[80, 80]} // widget margins (X, Y)e helper from disappearing if there is another useFrame(..., 1)*/}
+            >
+                <GizmoViewcube
+                    faces={["Right", "Left", "Back", "Front", "Top", "Bottom"]}
+                />
+                <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
+                {/* alternative: <GizmoViewcube /> */}
+            </GizmoHelper>
 
-        
         </Canvas>
     )
 }

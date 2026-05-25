@@ -1,0 +1,30 @@
+import { useEffect } from "react";
+import { useBim } from "./bim-context";
+import { useLoadFragmentsModel, useLoadIfc } from "./bim-hooks";
+
+const IfcMesh = () => {
+    const loadIfc = useLoadIfc();
+
+    const loadFragmentsModel =  
+        useLoadFragmentsModel();
+
+    const { isFragmentLoader, initialized } = useBim();
+
+    useEffect(() => {
+        if (isFragmentLoader) {
+            console.log("Loading with fragments...");
+                loadFragmentsModel(
+                    "https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc"
+                );
+        } else {
+            console.log("Loading with IfcLoader...");
+            loadIfc(
+                "https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc"
+            );
+        }
+    }, [isFragmentLoader, initialized, loadFragmentsModel, loadIfc]);
+
+    return null;
+};
+
+export default IfcMesh;

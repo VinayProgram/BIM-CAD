@@ -148,7 +148,10 @@ const BimContextProvider = ({
       }
     };
 
-    init();
+    if(initialized==false){
+      console.log('Initializing BIM...');
+      init()
+    };
   }, []);
 
   return (

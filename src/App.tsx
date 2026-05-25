@@ -48,7 +48,7 @@ const App = () => {
 
           {/* Optional */}
           <OrbitControls />
-          <Player />
+          {/* <Player /> */}
           <BimContextProvider useFragments={false}>
             <IfcMesh />
           </BimContextProvider>

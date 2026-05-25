@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useBim } from "./bim-context";
 import { useThree } from "@react-three/fiber";
 import * as FRAGS from "@thatopen/fragments";
+
 async function fetchModel(url: string) {
     const response = await fetch(url);
 

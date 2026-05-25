@@ -1,9 +1,8 @@
 import React, { useCallback } from "react";
-import { useBim } from "./bim-context";
 import * as OBC from "@thatopen/components";
-import * as FRAGS from "@thatopen/fragments";
+import { useBim } from "@/bim-editor/bim-context";
 const useFinder = () => {
-  const { isFragmentLoader, components } = useBim();
+  const { components } = useBim();
   const [finder, setFinder] = React.useState<OBC.ItemsFinder | null>(null);
   const [hider, setHider] = React.useState<OBC.Hider | null>(null);
   const init = React.useCallback(async () => {

@@ -9,6 +9,7 @@ import { Canvas } from "@react-three/fiber";
 import IfcMesh from "./mesh-loader";
 import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 import Player from "@/bim-tools/first-player";
+import BimExplode from "@/bim-tools/bim-explode";
 const BimCanvas = () => {
     const { cameraType } = useBimToolsStore()
 
@@ -36,6 +37,7 @@ const BimCanvas = () => {
                 <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
                 {/* alternative: <GizmoViewcube /> */}
             </GizmoHelper>
+            <BimExplode/>
 
         </Canvas>
     )

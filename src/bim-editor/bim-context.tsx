@@ -113,7 +113,7 @@ const BimContextProvider = ({
     // FRAGMENTS
     fragments.init(workerUrl);
 
-    fragments.list.onItemSet.add(({ value: model }) => {
+    fragments.list.onItemSet.add(() => {
       fragments.core.update(true);
     });
 

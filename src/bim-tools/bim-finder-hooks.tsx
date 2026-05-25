@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import * as OBC from "@thatopen/components";
 import { useBim } from "@/bim-editor/bim-context";
 const useFinder = () => {

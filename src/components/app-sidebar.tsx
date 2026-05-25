@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, Settings2Icon, CircleHelpIcon, SearchIcon, CommandIcon, PersonStanding } from "lucide-react"
+import { Settings2Icon, CircleHelpIcon, SearchIcon, CommandIcon } from "lucide-react"
 
 const data = {
   user: {

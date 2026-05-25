@@ -5,6 +5,7 @@ import * as FRAGS from "@thatopen/fragments";
 const useFinder = () => {
   const { isFragmentLoader, components } = useBim();
   const [finder, setFinder] = React.useState<OBC.ItemsFinder | null>(null);
+  const [hider, setHider] = React.useState<OBC.Hider | null>(null);
   const init = React.useCallback(async () => {
     if (!components) return;
     const finder = components.get(OBC.ItemsFinder);
@@ -29,6 +30,9 @@ const useFinder = () => {
         relation: { name: "ContainedInStructure", query: entryLevel },
       },
     ]);
+
+    const hider = components.get(OBC.Hider);
+    setHider(hider);
     setFinder(finder);
   }, [components]);
 
@@ -36,8 +40,6 @@ const useFinder = () => {
   
   const getResult = React.useCallback(async (name: string) => {
     console.log(finder?.list.keys())
-        const hider = components?.get(OBC.Hider);
-
     const finderQuery = finder?.list.get(name);
     console.log(finderQuery)
     if (!finderQuery) return {};
@@ -49,7 +51,7 @@ const useFinder = () => {
 
 
 
-  return { getResult, init };
+  return { getResult, init,finder };
 
 }
 

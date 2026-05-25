@@ -1,16 +1,18 @@
 import {
-  Grid,
   KeyboardControls,
-  OrbitControls,
   type KeyboardControlsEntry,
 } from "@react-three/drei";
 
-import { Canvas } from "@react-three/fiber";
 import { useMemo } from "react";
-import { DoubleSide } from "three";
-import Player from "./player";
 import BimContextProvider from "./bim-editor/bim-context";
-import IfcMesh from "./bim-editor/mesh-loader";
+import BimCanvas from "./bim-editor/bim-canvas";
+import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
+import { AppSidebar } from "./components/app-sidebar";
+import { SiteHeader } from "./components/site-header";
+import { SectionCards } from "./components/section-cards";
+import { ChartAreaInteractive } from "./components/chart-area-interactive";
+import { DataTable } from "./components/data-table";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 
 //@ts-ignore
@@ -36,31 +38,30 @@ const App = () => {
 
   return (
     <div style={{ width: "98vw", height: "98vh" }}>
-
       <KeyboardControls map={map}>
-        <Canvas
-          camera={{
-            position: [0, 0, 20],
-            fov: 50,
-          }}
-        >
-          <ambientLight />
+        <BimContextProvider useFragments={false}>
+          <TooltipProvider>
+            <SidebarProvider
+              style={
+                {
+                  "--sidebar-width": "calc(var(--spacing) * 72)",
+                  "--header-height": "calc(var(--spacing) * 12)",
+                } as React.CSSProperties
+              }
+            >
+              <AppSidebar variant="inset" />
+              <SidebarInset>
+                <SiteHeader />
+                <div className="flex flex-1 flex-col">
 
-          {/* Optional */}
-          <OrbitControls />
-          {/* <Player /> */}
-          <BimContextProvider useFragments={false}>
-            <IfcMesh />
-          </BimContextProvider>
-          <Grid
-            args={[100, 100]}
-            sectionColor="#444"
-            cellColor="#666"
-            infiniteGrid
-            side={DoubleSide}
-          />
-        </Canvas>
+                  <BimCanvas />
+                </div>
+              </SidebarInset>
+            </SidebarProvider>
+          </TooltipProvider>
+        </BimContextProvider>
       </KeyboardControls>
+
     </div>
   );
 };

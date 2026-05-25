@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useBim } from "./bim-context";
 import { useLoadFragmentsModel, useLoadIfc } from "./bim-hooks";
-import useFinder from "./bim-finder-hooks";
-import { useThree } from "@react-three/fiber";
 
 const IfcMesh = () => {
     const loadIfc = useLoadIfc();
@@ -20,12 +18,13 @@ const IfcMesh = () => {
         } else {
             console.log("Loading with IfcLoader...");
             loadIfc(
-                "/BasicHouse.ifc"
+                "https://threejs.org/examples/models/ifc/rac_advanced_sample_project.ifc"
+                // "/BasicHouse.ifc"
             );
         }
     }, [isFragmentLoader, initialized, loadFragmentsModel, loadIfc]);
     
-  
+    
 
     return null
 };

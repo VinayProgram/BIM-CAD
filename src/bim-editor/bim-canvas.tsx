@@ -4,7 +4,11 @@ import {
 
 import { Canvas } from "@react-three/fiber";
 import IfcMesh from "./mesh-loader";
+import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
+import Player from "@/bim-tools/first-player";
 const BimCanvas = () => {
+      const {cameraType}=useBimToolsStore()
+    
     return (
         <Canvas
             camera={{
@@ -16,7 +20,7 @@ const BimCanvas = () => {
 
             {/* Optional */}
             <OrbitControls />
-            {/* <Player /> */}
+            {cameraType==='FP'&&<Player />}
             <IfcMesh />
 
         

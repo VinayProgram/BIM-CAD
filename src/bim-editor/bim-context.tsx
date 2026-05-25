@@ -15,6 +15,9 @@ interface BimContextType {
   initialized: boolean;
   ifcLoader: OBC.IfcLoader | null;
   isFragmentLoader?: boolean;
+  setModelAccess:React.Dispatch<React.SetStateAction<FRAGS.FragmentsModel | null>>|null
+  modelAccess:FRAGS.FragmentsModel|null
+  
 }
 
 const BimContext = createContext<BimContextType>({
@@ -24,6 +27,8 @@ const BimContext = createContext<BimContextType>({
   initialized: false,
   ifcLoader: null,
   isFragmentLoader: false,
+  modelAccess:null,
+  setModelAccess:null
 });
 
 export const useBim = () => useContext(BimContext);
@@ -50,6 +55,8 @@ const BimContextProvider = ({
     useState(false);
 
   const [ifcLoader, setIfcLoader] = useState<OBC.IfcLoader | null>(null);
+
+  const [modelAccess,setModelAccess]=useState<FRAGS.FragmentsModel|null >(null)
 
   const fragmentLoaderSetup = async () => {
     // SERIALIZER
@@ -157,6 +164,8 @@ const BimContextProvider = ({
   return (
     <BimContext.Provider
       value={{
+        modelAccess,
+        setModelAccess,
         fragments,
         components,
         serializer,

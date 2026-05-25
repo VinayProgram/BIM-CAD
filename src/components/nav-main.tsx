@@ -1,5 +1,4 @@
 import useFinder from "@/bim-editor/bim-finder-hooks"
-import { Button } from "@/components/ui/button"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -7,20 +6,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { CirclePlusIcon, MailIcon, Search } from "lucide-react"
+import { Camera, PersonStanding, Search } from "lucide-react"
 import React from "react"
 import { Input } from "./ui/input"
+import { useBim } from "@/bim-editor/bim-context"
+import { useBimToolsStore } from "@/bim-tools/bim-tools-store"
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string
-    url: string
-    icon?: React.ReactNode
-  }[]
-}) {
+export function NavMain() {
   const {getResult,init}=useFinder()
+  const {setCameraType,cameraType}=useBimToolsStore(state=>state)
   React.useEffect(()=>{
     init()
   },[init])
@@ -35,14 +29,12 @@ export function NavMain({
                  <Input placeholder='search Walls slabs etc...' onChange={(e)=>getResult(e.target.value)}/>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon}
-                <span>{item.title}</span>
+            <SidebarMenuItem  onClick={()=>{cameraType==='FP'?setCameraType('orbit'):setCameraType('FP')}}>
+              <SidebarMenuButton tooltip={'Camera'}>
+                {cameraType=='FP'?<PersonStanding/>:<Camera/>}
+                <span>{cameraType+' Camera'}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

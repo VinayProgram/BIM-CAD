@@ -14,7 +14,7 @@ async function fetchModel(url: string) {
 }
 
 export const useLoadIfc = () => {
-    const { ifcLoader } = useBim();
+    const { ifcLoader ,setModelAccess} = useBim();
     const { camera, scene } = useThree()
     const loadIfc = useCallback(
         async (url: string) => {
@@ -53,6 +53,7 @@ export const useLoadIfc = () => {
             
             scene.add(model?.object!);
             model?.useCamera(camera);
+            setModelAccess!(model)
             return model;
         }
         },

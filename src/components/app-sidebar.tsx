@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, Settings2Icon, CircleHelpIcon, SearchIcon, CommandIcon } from "lucide-react"
+import { LayoutDashboardIcon, Settings2Icon, CircleHelpIcon, SearchIcon, CommandIcon, PersonStanding } from "lucide-react"
 
 const data = {
   user: {
@@ -20,16 +20,6 @@ const data = {
     email: "vinay@bimsoftware.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
-    {
-      title: "Search Bim Parts",
-      url: "#",
-      icon: (
-        <LayoutDashboardIcon
-        />
-      ),
-    }
-  ],
   navSecondary: [
     {
       title: "Settings",
@@ -77,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain />
         {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

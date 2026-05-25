@@ -22,6 +22,8 @@ export enum ControlsType {
   back = "back",
   left = "left",
   right = "right",
+  up='up',
+  down='down'
 }
 
 const App = () => {
@@ -31,6 +33,8 @@ const App = () => {
       { name: ControlsType.back, keys: ["ArrowDown", "KeyS"] },
       { name: ControlsType.left, keys: ["ArrowLeft", "KeyA"] },
       { name: ControlsType.right, keys: ["ArrowRight", "KeyD"] },
+      { name: ControlsType.up, keys: ["space", "KeyF"] },
+      { name: ControlsType.down, keys: ["space", "KeyG"] }
     ],
     []
   );

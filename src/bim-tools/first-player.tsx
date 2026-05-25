@@ -22,7 +22,7 @@ const Player = () => {
     useFrame((state) => {
         if (!playerRef.current) return;
 
-        const { forward, back, left, right } = getControls();
+        const { forward, back, left, right, up, down } = getControls();
 
         // Rotate player
         if (left) {
@@ -37,6 +37,7 @@ const Player = () => {
         playerRef.current.getWorldDirection(direction);
 
         // Move forward/back
+
         if (forward) {
             playerRef.current.position.addScaledVector(direction, SPEED);
         }
@@ -44,6 +45,14 @@ const Player = () => {
         if (back) {
             playerRef.current.position.addScaledVector(direction, -SPEED);
         }
+        if (up) {
+            playerRef.current.position.y += 0.01
+        }
+        if (down) {
+            playerRef.current.position.y -= 0.01
+
+        }
+
 
         // Camera follow
         const cameraPosition = playerRef.current.position

@@ -10,6 +10,8 @@ import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar";
 import { SiteHeader } from "./components/site-header";
 import { TooltipProvider } from "./components/ui/tooltip";
+import { useBimToolsStore } from "./bim-tools/bim-tools-store";
+import { Loader } from "lucide-react";
 
 
 //@ts-ignore
@@ -19,11 +21,12 @@ export enum ControlsType {
   back = "back",
   left = "left",
   right = "right",
-  up='up',
-  down='down'
+  up = 'up',
+  down = 'down'
 }
 
 const App = () => {
+  const {isLoading}=useBimToolsStore()
   const map = useMemo<KeyboardControlsEntry<ControlsType>[]>(
     () => [
       { name: ControlsType.forward, keys: ["ArrowUp", "KeyW"] },
@@ -54,7 +57,10 @@ const App = () => {
               <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col">
-
+                  
+                  {isLoading==0&&<span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+                    <Loader scale={1000}   />
+                    </span>}
                   <BimCanvas />
                 </div>
               </SidebarInset>

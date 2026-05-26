@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useBim } from "./bim-context";
 import { useThree } from "@react-three/fiber";
 import * as FRAGS from "@thatopen/fragments";
+import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 async function fetchModel(url: string) {
     const response = await fetch(url);
 
@@ -13,10 +14,12 @@ async function fetchModel(url: string) {
 }
 
 export const useLoadIfc = () => {
-    const { ifcLoader ,setModelAccess} = useBim();
+    const { ifcLoader, setModelAccess } = useBim();
     const { camera, scene } = useThree()
+    const { setIsLoading,setClassesData } = useBimToolsStore()
     const loadIfc = useCallback(
         async (url: string) => {
+            setIsLoading(0)
             const ifcBytes = await fetchModel(url);
 
             const model = await ifcLoader?.load(
@@ -29,6 +32,8 @@ export const useLoadIfc = () => {
                             progress: number
                         ) => {
                             console.log(progress);
+                            setIsLoading(progress*100)
+
                         },
                     },
 
@@ -45,16 +50,17 @@ export const useLoadIfc = () => {
                     },
                 }
             );
-            if(model){
+            if (model) {
 
-            console.log(await model.getCategories())
-            console.log(await model.getAlignments())
-            
-            scene.add(model?.object!);
-            model?.useCamera(camera);
-            setModelAccess!(model)
-            return model;
-        }
+                setClassesData(await model.getCategories())
+                
+
+                scene.add(model?.object!);
+                model?.useCamera(camera);
+                setModelAccess!(model)
+                setIsLoading(100)
+                return model;
+            }
         },
         [ifcLoader]
     );

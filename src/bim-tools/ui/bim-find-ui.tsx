@@ -1,6 +1,4 @@
-import { Input } from '@/components/ui/input'
 import { SidebarMenuItem } from '@/components/ui/sidebar'
-import { Search } from 'lucide-react'
 import React from 'react'
 import useFinder from '../bim-finder-hooks'
 

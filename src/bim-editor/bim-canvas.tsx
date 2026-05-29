@@ -10,8 +10,10 @@ import IfcMesh from "./mesh-loader";
 import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 import Player from "@/bim-tools/first-player";
 import BimExplode from "@/bim-tools/bim-explode";
+import BimSideClipping from "@/bim-tools/bim-side-clipping";
 const BimCanvas = () => {
-    const { cameraType } = useBimToolsStore()
+    const { cameraType,transform } = useBimToolsStore()
+    
 
     return (
         <Canvas
@@ -23,7 +25,7 @@ const BimCanvas = () => {
             <ambientLight />
 
             {/* Optional */}
-            <OrbitControls />
+            <OrbitControls enableRotate={transform=='none'}/>
             {cameraType === 'FP' && <Player />}
             <IfcMesh />
             {/* <GizmoHelper/> */}
@@ -38,6 +40,7 @@ const BimCanvas = () => {
                 {/* alternative: <GizmoViewcube /> */}
             </GizmoHelper>
             <BimExplode/>
+           {transform!=='none'&& <BimSideClipping/>}
 
         </Canvas>
     )

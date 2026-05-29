@@ -19,6 +19,7 @@ interface BimContextType {
   modelAccess: FRAGS.FragmentsModel | null
   init:()=>void
 
+
 }
 
 const BimContext = createContext<BimContextType>({

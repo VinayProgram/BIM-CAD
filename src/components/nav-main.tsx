@@ -8,6 +8,7 @@ import BimCameraUi from "@/bim-tools/ui/bim-camera-ui"
 import BimFindUi from "@/bim-tools/ui/bim-find-ui"
 import BimExplodeUi from "@/bim-tools/ui/bim-explode-ui"
 import { BimFileUploader } from "@/bim-tools/ui/bim-file-uploader"
+import BimClippingUi from "@/bim-tools/ui/bim-cliping-ui"
 
 export function NavMain() {
   return (
@@ -19,6 +20,7 @@ export function NavMain() {
           <BimFindUi />
           <BimCameraUi />
           <BimExplodeUi />
+          <BimClippingUi/>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

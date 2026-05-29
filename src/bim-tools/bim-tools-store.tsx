@@ -18,6 +18,12 @@ interface BimToolsState {
 
   classesData: string[],
   setClassesData: (s: string[]) => void
+
+
+  transform: "translate" | "rotate" | "none"
+  setTransform: (s: "translate" | "rotate" | "none") => void
+
+
 }
 
 export const useBimToolsStore = create<BimToolsState>((set) => ({
@@ -30,5 +36,8 @@ export const useBimToolsStore = create<BimToolsState>((set) => ({
   isLoading: 0,
   setIsLoading: (t) => set({ isLoading: t }),
   classesData: [],
-  setClassesData: (s) => set({ classesData: s })
+  setClassesData: (s) => set({ classesData: s }),
+
+  transform:"none",
+  setTransform:(s)=>set({transform:s})
 }));

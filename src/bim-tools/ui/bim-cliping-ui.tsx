@@ -1,4 +1,3 @@
-import React from 'react'
 import { useBimToolsStore } from '../bim-tools-store'
 import { SidebarMenuItem } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'

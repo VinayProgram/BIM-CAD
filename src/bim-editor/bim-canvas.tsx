@@ -11,6 +11,9 @@ import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 import Player from "@/bim-tools/first-player";
 import BimExplode from "@/bim-tools/bim-explode";
 import BimSideClipping from "@/bim-tools/bim-side-clipping";
+import { createXRStore,XR } from "@react-three/xr";
+  const store = createXRStore()
+
 const BimCanvas = () => {
     const { cameraType,transform } = useBimToolsStore()
     
@@ -22,6 +25,7 @@ const BimCanvas = () => {
                 fov: 50,
             }}
         >
+            <XR store={store}>
             <ambientLight />
 
             {/* Optional */}
@@ -41,7 +45,7 @@ const BimCanvas = () => {
             </GizmoHelper>
             <BimExplode/>
            {transform!=='none'&& <BimSideClipping/>}
-
+            </XR>
         </Canvas>
     )
 }

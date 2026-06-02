@@ -23,6 +23,9 @@ interface BimToolsState {
   transform: "translate" | "rotate" | "none"
   setTransform: (s: "translate" | "rotate" | "none") => void
 
+  xrStore: any
+  setXrStore: (store: any) => void
+
 
 }
 
@@ -39,5 +42,8 @@ export const useBimToolsStore = create<BimToolsState>((set) => ({
   setClassesData: (s) => set({ classesData: s }),
 
   transform:"none",
-  setTransform:(s)=>set({transform:s})
+  setTransform:(s)=>set({transform:s}),
+
+  xrStore: null,
+  setXrStore: (store) => set({ xrStore: store }),
 }));

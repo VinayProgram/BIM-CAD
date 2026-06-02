@@ -5,7 +5,7 @@ import {
 
 import { useMemo } from "react";
 import BimContextProvider from "./bim-editor/bim-context";
-import BimCanvas from "./bim-editor/bim-canvas";
+import BimCanvas, { CameraComponent } from "./bim-editor/bim-canvas";
 import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar";
 import { SiteHeader } from "./components/site-header";
@@ -63,6 +63,7 @@ const App = () => {
                     </span>}
                   <BimCanvas />
                 </div>
+                   <CameraComponent onFrame={(_video) => {}} />
               </SidebarInset>
             </SidebarProvider>
           </TooltipProvider>

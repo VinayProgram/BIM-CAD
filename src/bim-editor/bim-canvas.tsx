@@ -69,7 +69,11 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({ onFrame }) => 
 
   useEffect(() => {
     const setupCamera = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: {
+        facingMode: 'environment', // Use rear camera if available
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      } });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.onloadedmetadata = () => {

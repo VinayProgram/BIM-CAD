@@ -10,6 +10,11 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
+  server: {
+    headers: {
+      'Permissions-Policy': 'xr-spatial-tracking=(self)'
+    }
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

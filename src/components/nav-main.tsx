@@ -9,11 +9,10 @@ import BimFindUi from "@/bim-tools/ui/bim-find-ui"
 import BimExplodeUi from "@/bim-tools/ui/bim-explode-ui"
 import { BimFileUploader } from "@/bim-tools/ui/bim-file-uploader"
 import BimClippingUi from "@/bim-tools/ui/bim-cliping-ui"
-import { useBimToolsStore } from "@/bim-tools/bim-tools-store"
-import { Button } from "@base-ui/react"
+import BimArVrUi from "@/ar/ar-vr-ui"
+
 
 export function NavMain() {
-  const {xrStore}=useBimToolsStore()
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Main tools</SidebarGroupLabel>
@@ -24,7 +23,7 @@ export function NavMain() {
           <BimCameraUi />
           <BimExplodeUi />
           <BimClippingUi/>
-          <Button  onClick={()=>xrStore?.enterXR('immersive-ar')}>Start XR</Button>
+          <BimArVrUi/>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

@@ -12,23 +12,24 @@ import Player from "@/bim-tools/first-player";
 import BimExplode from "@/bim-tools/bim-explode";
 import BimSideClipping from "@/bim-tools/bim-side-clipping";
 import { createXRStore, XR } from "@react-three/xr";
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import SlamXr from "@/ar/slam-xr/slam-xr-camera-tracker";
 const store = createXRStore()
 
 const BimCanvas = () => {
-    const { cameraType, transform ,setXrStore} = useBimToolsStore()
+    const { cameraType, transform, setXrStore, ar } = useBimToolsStore()
     React.useEffect(() => {
         setXrStore(store)
-        
+
     }, [])
-    
+
     return (
         <Canvas
             camera={{
                 position: [0, 0, 20],
                 fov: 50,
             }}
-            style={{ width: "100%", height: "100%",position:'absolute',top:0,left:0 }}
+            gl={{ alpha: true }}
         >
             <XR store={store}>
                 <ambientLight />
@@ -51,8 +52,9 @@ const BimCanvas = () => {
                 </GizmoHelper>
                 <BimExplode />
                 {/* <Environment  preset="apartment" background/> */}
-                {transform !== 'none' && <BimSideClipping />}
-             
+                {transform !== 'none' && <BimSideClipping />}+
+                {ar && <SlamXr />}
+
             </XR>
         </Canvas>
     )
@@ -60,39 +62,5 @@ const BimCanvas = () => {
 
 export default BimCanvas
 
-interface CameraComponentProps {
-  onFrame: (video: HTMLVideoElement) => void;
-}
 
-export const CameraComponent: React.FC<CameraComponentProps> = ({ onFrame }) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    const setupCamera = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: {
-        facingMode: 'environment', // Use rear camera if available
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      } });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play();
-        };
-      }
-    };
-
-    setupCamera();
-
-    const interval = setInterval(() => {
-      if (videoRef.current) {
-        onFrame(videoRef.current);
-      }
-    }, 100); // Process frames every 100ms.
-
-    return () => clearInterval(interval);
-  }, [onFrame]);
-
-  return <video ref={videoRef}  />;
-};
 

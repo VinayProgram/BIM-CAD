@@ -1,3 +1,4 @@
+import type { DetectedObject } from '@tensorflow-models/coco-ssd';
 import { create } from 'zustand';
 
 // Define the exact camera types you requested
@@ -26,7 +27,14 @@ interface BimToolsState {
   xrStore: any
   setXrStore: (store: any) => void
 
+  predictions:DetectedObject[]|null
+  setPredictions:(pred:DetectedObject[]|null)=>void
 
+  video:HTMLVideoElement | null
+  setVideo:(video:HTMLVideoElement | null)=>void
+
+  ar:boolean
+  setAr:(b:boolean)=>void
 }
 
 export const useBimToolsStore = create<BimToolsState>((set) => ({
@@ -46,4 +54,13 @@ export const useBimToolsStore = create<BimToolsState>((set) => ({
 
   xrStore: null,
   setXrStore: (store) => set({ xrStore: store }),
+
+  predictions:null,
+  setPredictions:(pred)=>set({predictions:pred}),
+
+  video:null,
+  setVideo:(video)=>set({video}),
+
+  ar:false,
+  setAr:(b)=>set({ar:b})
 }));

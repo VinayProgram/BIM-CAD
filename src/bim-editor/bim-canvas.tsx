@@ -11,52 +11,50 @@ import { useBimToolsStore } from "@/bim-tools/bim-tools-store";
 import Player from "@/bim-tools/first-player";
 import BimExplode from "@/bim-tools/bim-explode";
 import BimSideClipping from "@/bim-tools/bim-side-clipping";
-import { createXRStore, XR } from "@react-three/xr";
-import React from "react";
+import { XR, XROrigin } from "@react-three/xr";
 import SlamXr from "@/ar/slam-xr/slam-xr-camera-tracker";
-const store = createXRStore()
 
 const BimCanvas = () => {
-    const { cameraType, transform, setXrStore, ar } = useBimToolsStore()
-    React.useEffect(() => {
-        setXrStore(store)
-
-    }, [])
+    const { cameraType, transform, ar, xrStore } = useBimToolsStore()
 
     return (
-        <Canvas
-            camera={{
-                position: [0, 0, 20],
-                fov: 50,
-            }}
-            gl={{ alpha: true }}
-        >
-            <XR store={store}>
-                <ambientLight />
+        <>
+            <Canvas
+                camera={{
+                    position: [0, 0, 20],
+                    fov: 50,
+                }}
+                gl={{ alpha: true }}
+            >
+                <XR store={xrStore} >
+                    <ambientLight />
+                    <OrbitControls enableRotate={transform == 'none'} />
+                    {cameraType === 'FP' && <Player />}
+                    <XROrigin scale={30} position-y={1} frustumCulled={true} > 
+                        <IfcMesh />
+                    </XROrigin>
 
-                {/* Optional */}
-                <OrbitControls enableRotate={transform == 'none'} />
-                {cameraType === 'FP' && <Player />}
-                <IfcMesh />
-                {/* <GizmoHelper/> */}
-                <GizmoHelper
-                    alignment="bottom-right" // widget alignment within scene
-                    margin={[80, 80]} // widget margins (X, Y)e helper from disappearing if there is another useFrame(..., 1)*/}
-                >
-                    <GizmoViewcube
-                        faces={["Right", "Left", "Back", "Front", "Top", "Bottom"]}
-                    />
-                    <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
-                    {/* alternative: <GizmoViewcube /> */}
-                    {/* <CameraPlane/> */}
-                </GizmoHelper>
-                <BimExplode />
-                {/* <Environment  preset="apartment" background/> */}
-                {transform !== 'none' && <BimSideClipping />}+
-                {ar && <SlamXr />}
+                    <GizmoHelper
+                        alignment="bottom-right" // widget alignment within scene
+                        margin={[80, 80]} // widget margins (X, Y)e helper from disappearing if there is another useFrame(..., 1)*/}
+                    >
+                        <GizmoViewcube
+                            faces={["Right", "Left", "Back", "Front", "Top", "Bottom"]}
+                        />
+                        <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
+                    </GizmoHelper>
+                    <BimExplode />
+                    {/* <mesh position={[-10, 0, 0]}>
+                    <boxGeometry args={[1, 1, 1]} />
+                    <meshStandardMaterial color="orange" />
+                </mesh> */}
+                    {/* <WebXrSupport/> */}
+                    {transform !== 'none' && <BimSideClipping />}+
+                    {ar && <SlamXr />}
 
-            </XR>
-        </Canvas>
+                </XR>
+            </Canvas>
+        </>
     )
 }
 

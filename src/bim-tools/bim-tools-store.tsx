@@ -1,3 +1,4 @@
+import { createXRStore, type XRStore, } from '@react-three/xr';
 import type { DetectedObject } from '@tensorflow-models/coco-ssd';
 import { create } from 'zustand';
 
@@ -24,7 +25,7 @@ interface BimToolsState {
   transform: "translate" | "rotate" | "none"
   setTransform: (s: "translate" | "rotate" | "none") => void
 
-  xrStore: any
+  xrStore:  XRStore
   setXrStore: (store: any) => void
 
   predictions:DetectedObject[]|null
@@ -52,7 +53,7 @@ export const useBimToolsStore = create<BimToolsState>((set) => ({
   transform:"none",
   setTransform:(s)=>set({transform:s}),
 
-  xrStore: null,
+  xrStore:  createXRStore(),
   setXrStore: (store) => set({ xrStore: store }),
 
   predictions:null,

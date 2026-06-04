@@ -43,7 +43,7 @@ export const useLoadIfc = () => {
                         importer.addAllAttributes();
 
                         // importer.addAllRelations();
-
+                        
                         console.log(
                             importer.classes
                         );
@@ -54,7 +54,7 @@ export const useLoadIfc = () => {
 
                 setClassesData(await model.getCategories())
                 
-
+                model.object.frustumCulled = false;
                 scene.add(model?.object!);
                 model?.useCamera(camera);
                 setModelAccess!(model)

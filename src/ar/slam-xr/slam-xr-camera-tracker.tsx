@@ -35,7 +35,7 @@ const SlamXr = () => {
         //    const texture = new THREE.Color('blue')
         //     gl.scene.background = texture;
 
-        const chair=predictions?.find(pred => pred.class === 'Person');
+        const chair=predictions?.find(pred => pred.class === "person");
         gl.scene.background = videoTextureRef.current;
         if (videoTextureRef.current && ve?.readyState === ve?.HAVE_ENOUGH_DATA) {
             videoTextureRef.current.needsUpdate = true; // 👈 required for live video
